@@ -15,7 +15,10 @@
 //     - sum - стоимость заказа с учетом скидок и доставки
 // - goods: массив объектов с информацией о позициях заказа:
 //     - title - название позиции
-//     - count - количество в заказе
+//     - count - количество в заказ
+
+
+
 // например:
 // {
 //    "data": {
@@ -32,22 +35,15 @@
 //      ]
 //    }
 // }
-
 function sendRequest(name, phone, address, goods, sum) {
-    let data = {goods: [], order: {}};
+let data = {client: `${name} ${phone}`, goods: [], order: {address: `ул. ${address.street}, дом ${address.house}, ${address.entrance} подъезд, ${address.floor} этаж, кв ${address.flat}`, sum}};
 
-    let countOfGoods = goods.length;
+let countOfGoods = goods.length;
+for (let i = 0; i < countOfGoods; i += 1) {
+    data.goods.push({title: goods[i].title, count: goods[i].count});
+}
 
-    for (let i = 0; i <= countOfGoods; i += 1) {
-        data.goods.push(goods[i].title);
-    }
+let jsonData = JSON.stringify({data});
 
-    data.order.address = address;
-    data.order.sum = name + phone + address + goods + sum;
-
-    data.client = 'Иван';
-
-    let jsonData = JSON.stringify(data);
-
-    return jsonData;
+return jsonData;
 }
